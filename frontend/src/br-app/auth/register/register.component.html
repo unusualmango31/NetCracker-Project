@@ -1,0 +1,50 @@
+<div class="wrapp">
+    <div class="container">
+        <form class="form-container" [formGroup]="form" (ngSubmit)="submit()">
+            <div class="form-container__header">
+                <img src="../../assets/auth_icon.png" width="100" height="100" alt="main_logo" class="form-container__ico" />
+                <span class="logo-name">Books Recommendation</span>
+            </div>
+            <div class="form-container__content">
+                <div class="form-container__title">
+                    {{ formTitle }}
+                </div>
+                <div class="input-field">
+                    <label for="email"></label>
+                    <input type="email" id="email" formControlName="email" placeholder="email" />
+                    <div class="helper-text red-text" *ngIf="form.get('email').invalid && form.get('email').touched">
+                        <small *ngIf="form.get('email').errors.required"> Поле "Email" не может быть пустым. </small>
+                        <small *ngIf="form.get('email').errors.email"> Введите корректный email адрес. </small>
+                    </div>
+                </div>
+
+                <div class="input-field">
+                    <label for="username"></label>
+                    <input type="username" id="username" formControlName="username" placeholder="Имя пользователя" />
+                    <div class="helper-text red-text" *ngIf="form.get('username').invalid && form.get('username').touched">
+                        <small *ngIf="form.get('username').errors.required"> Поле "Имя пользователя" не может быть пустым. </small>
+                        <small *ngIf="form.get('username').errors.minlength"> Пароль должен быть больше {{ form.get("username").errors.minlength.requiredLength }} символов. </small>
+                    </div>
+                </div>
+
+                <div class="input-field">
+                    <label for="password"></label>
+                    <input type="password" id="password" formControlName="password" placeholder="пароль" />
+                    <div class="helper-text red-text" *ngIf="form.get('password').invalid && form.get('password').touched">
+                        <small *ngIf="form.get('password').errors.required"> Поле "Пароль" не может быть пустым. </small>
+                        <small *ngIf="form.get('password').errors.minlength"> Пароль должен быть больше {{ form.get("password").errors.minlength.requiredLength }} символов. </small>
+                    </div>
+                </div>
+                <small class="helper-text red-text serverErrors" *ngIf="serverError$ | async">
+                    {{ serverError$ | async }}
+                </small>
+            </div>
+            <div class="form-container__action">
+                <button type="submit" [disabled]="form.invalid || form.disabled">Зарегистрироваться</button>
+            </div>
+            <div class="form-container__sign-up">
+                <a (click)="redirect()">Уже есть аккаунт? </a>
+            </div>
+        </form>
+    </div>
+</div>
