@@ -6,16 +6,23 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 
 import { BrAppComponent } from "./br-app.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { BrAppRoutingModule } from "./br-app-routing.module";
 import { environment } from "@env/environment";
 import { AuthModule } from "./auth/auth.module";
 import { HomeComponent } from "./home/home.component";
+import { BooksFormComponent } from "./books-form/books-form.component";
+import { AuthInterceptor } from "./interceptors/auth.interceptor";
+import { AuthGuard } from "./guards/auth.guard";
+import { GuestGuard } from "./guards/guest.guard";
+import { ErrorPageComponent } from "./error-page/error-page.component";
 
 @NgModule({
     declarations: [
         BrAppComponent,
         HomeComponent,
+        BooksFormComponent,
+        ErrorPageComponent,
     ],
     imports: [
         BrowserModule,
@@ -28,8 +35,16 @@ import { HomeComponent } from "./home/home.component";
         StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
         AuthModule,
     ],
-    providers: [],
-    bootstrap: [BrAppComponent],
+    providers: [
+        AuthGuard,
+        GuestGuard,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true,
+        },
+    ],
+    bootstrap: [ BrAppComponent],
 })
 export class BrAppModule {
 }

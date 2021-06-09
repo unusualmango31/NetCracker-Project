@@ -3,8 +3,18 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, map, switchMap } from "rxjs/operators";
 import { of } from "rxjs";
 import { AuthService } from "../../services/auth.service";
-import { login, loginFailed, loginSuccess, signUp, signUpFailed, signUpSuccess } from "../actions/auth.action";
+import {
+    initAuth,
+    login,
+    loginFailed,
+    loginSuccess, logout, logoutSuccess,
+    signUp,
+    signUpFailed,
+    signUpSuccess,
+} from "../actions/auth.action";
 import { Router } from "@angular/router";
+import { LoginData } from "../state/auth.state";
+import { Store } from "@ngrx/store";
 
 @Injectable({
     providedIn: "root"
@@ -42,6 +52,12 @@ export class AuthEffects {
             ),
         )),
     ));
+    saveAuthDataToLocalStorage$ = createEffect( () => this.actions$.pipe(
+        ofType(loginSuccess),
+        map( ( { loginData }) => {
+            localStorage.setItem("authData", JSON.stringify(loginData));
+        })),
+    { dispatch: false });
 
     loginRedirect$ = createEffect(() => this.actions$.pipe(
         ofType(loginSuccess),
@@ -54,11 +70,35 @@ export class AuthEffects {
         map( (action) => {
             this.router.navigate(["/login"]);
         })),
-        { dispatch: false });
+    { dispatch: false });
 
+    extractLoginData$ = createEffect( () => this.actions$.pipe(
+        ofType(initAuth),
+        map( () => {
+            const authDataString = localStorage.getItem("authData");
+            if (!authDataString) {
+                return logoutSuccess();
+            }
+
+            const loginData: LoginData = JSON.parse(authDataString);
+            if ( ( ( loginData.exp * 1000) - (10 * 1000) - Date.now() ) < 0 ) {
+                return logoutSuccess();
+            }
+            return loginSuccess( { loginData });
+        }),
+    ));
+
+    logout$ = createEffect( () => this.actions$.pipe(
+        ofType(logout),
+        map( () => {
+            localStorage.removeItem("authData");
+            return logoutSuccess();
+        }),
+    ));
     constructor(
         private router: Router,
         private actions$: Actions,
+        private store$: Store,
         private authService: AuthService,
     ) { }
 }

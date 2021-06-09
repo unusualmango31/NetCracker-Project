@@ -4,7 +4,7 @@ import {
     formRedirect,
     login,
     loginFailed,
-    loginSuccess,
+    loginSuccess, logoutSuccess,
     signUp,
     signUpFailed,
     signUpSuccess,
@@ -44,5 +44,10 @@ export const authReducer = createReducer(
         signUpData: null,
         serverLoginError: "",
         serverSignUpError: "",
+    })),
+    on(logoutSuccess, (): AuthState => ({
+        ...initaialAuthState,
+        loginData: null,
+        signUpData: null,
     })),
 );

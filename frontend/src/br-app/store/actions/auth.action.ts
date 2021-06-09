@@ -13,6 +13,9 @@ export const loginFailed = createAction(
     "[Auth] login failed",
     props<{ serverLoginError: string }>(),
 );
+export const initAuth = createAction(
+    "[Auth] init auth",
+);
 export const signUp = createAction(
     "[Auth] sign up",
     props<{ email: string, username: string, password: string }>(),
@@ -27,4 +30,10 @@ export const signUpFailed = createAction(
 );
 export const formRedirect = createAction(
     "[Auth] form redirect",
+);
+export const logout = createAction(
+    "[Auth] logout",
+);
+export const logoutSuccess = createAction(
+    "[Auth] logout success",
 );

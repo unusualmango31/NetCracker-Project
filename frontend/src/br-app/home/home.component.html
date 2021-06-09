@@ -1,1 +1,5 @@
-<p>home works!</p>
+<button (click)="test()">test</button>
+<button *ngIf="authService.isAuth$ | async" (click)="logout()">Выйти</button>
+<button *ngIf="authService.isGuest$ | async" (click)="auth()">Авторизация</button>
+
+<div *ngIf="authService.isAuth$ | async"> hello user </div>

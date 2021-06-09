@@ -1,17 +1,29 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
-import { SignUpData } from "../store/state/auth.state";
+import { getLoginData, SignUpData } from "../store/state/auth.state";
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { map } from "rxjs/operators";
+import { filter, map } from "rxjs/operators";
+import { select, Store } from "@ngrx/store";
 
 @Injectable({
     providedIn: "root"
 })
 export class AuthService {
+    isAuth$ = this.store$.pipe(
+        select(getLoginData),
+        filter( ( authData ) => authData !== undefined ),
+        map( ( loginData ) => !!loginData),
+    );
+
+    isGuest$ = this.isAuth$.pipe(
+        map( ( isAuth ) => !isAuth),
+    );
+    token?: string;
     constructor(
         private httpClient: HttpClient,
         private jwtHelperService: JwtHelperService,
+        private store$: Store,
     ) {
     }
     login(loginData: { email: string, password: string }): Observable<{ token: string }> {
