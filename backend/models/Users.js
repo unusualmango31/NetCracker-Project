@@ -23,11 +23,7 @@ const usersSchema = new Schema({
             }
         }
     ],
-    books: {
-        ref: "books",
-        type: Schema.Types.ObjectId
-    },
-    admin: {
+    isAdmin: {
         type: Boolean,
         default: false
     }

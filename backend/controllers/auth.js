@@ -18,9 +18,9 @@ module.exports.login = async (req, res) => {
             //Генерация токена
             const token = jwt.sign({
                 email: loginWithEmail.email,
-                userId: loginWithEmail._id
+                userId: loginWithEmail._id,
             }, keys.jwt, {
-                expiresIn: 3600
+                expiresIn: 86400
             });
 
             res.status(200).json({

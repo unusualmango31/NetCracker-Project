@@ -7,12 +7,12 @@ const mongoose = require("mongoose");
 
 const keys = require("./config/keys");
 const authRoutes = require("./routes/auth");
-const authorsRouter = require("./routes/authors");
+const usersRoutes = require("./routes/users");
 const booksRouter = require("./routes/books");
 
 const app = express();
 
-mongoose.connect(keys.mongoURI)
+mongoose.connect(keys.mongoURI, { useFindAndModify: false })
     .then( () => console.log("[Server] DB connected."))
     .catch(err => console.log(err));
 
@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use("/api/auth", authRoutes);
-app.use("/api/authors", authorsRouter);
+app.use("/api/users", usersRoutes);
 app.use("/api/books", booksRouter);
 
 

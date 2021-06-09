@@ -6,10 +6,7 @@ const booksSchema = new Schema({
         type: String,
         required: true
     },
-    author: {
-        ref: "authors",
-        type: Schema.Types.ObjectId
-    },
+    author: [ String ],
     description: {
         type: String,
     },
@@ -20,24 +17,12 @@ const booksSchema = new Schema({
         type: Number,
         required: true
     },
-    genres: [
-        {
-            name: {
-                type: String
-            },
-        }
-    ],
+    genres: [ String ],
     imgSrc: {
         type: String,
         default: ""
     },
-    tags: [
-        {
-            name: {
-                type: String,
-            },
-        }
-    ]
+    tags: [ String ]
 });
 
 module.exports = mongoose.model("books", booksSchema);

@@ -10,5 +10,4 @@ import {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BrAppComponent {
-    title = 123;
 }
