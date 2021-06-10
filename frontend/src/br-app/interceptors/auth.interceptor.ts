@@ -1,15 +1,14 @@
 import { Injectable } from "@angular/core";
 import {
-  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
 } from "@angular/common/http";
-import { EMPTY, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { select, Store } from "@ngrx/store";
 import { getToken } from "../store/state/auth.state";
-import { catchError, first, mergeMap } from "rxjs/operators";
+import { first, mergeMap } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
@@ -34,14 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
             }
           }) : request;
 
-          return next.handle(authRequest).pipe(
-              catchError( (err) => {
-                  if (err instanceof HttpErrorResponse && err.status === 401) {
-                    return EMPTY;
-                  }
-                  throw err;
-              }),
-          );
+          return next.handle(authRequest);
         }),
     );
   }
