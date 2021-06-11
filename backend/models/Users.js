@@ -16,13 +16,7 @@ const usersSchema = new Schema({
         type: String,
         required: true
     },
-    tags: [
-        {
-            name: {
-                type: String,
-            }
-        }
-    ],
+    tags: [ String ],
     isAdmin: {
         type: Boolean,
         default: false

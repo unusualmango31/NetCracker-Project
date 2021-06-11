@@ -5,7 +5,7 @@ import { logout } from "../store/actions/auth.action";
 import { Store } from "@ngrx/store";
 import { Router } from "@angular/router";
 import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { UserService } from "../services/user.service";
 
 @Component({
   selector: "br-home",
@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
       private httpClient: HttpClient,
       public authService: AuthService,
+      public userService: UserService,
       private store$: Store,
       private router: Router,
   ) {
@@ -28,12 +29,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log("home is working");
+    console.log("home is work");
   }
   test(): void {
-    this.httpClient.get("/api/users/60c0848d5f58cc360cdd3023")
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(console.log);
+    console.log("редирект на составление рекомендаций");
   }
   logout(): void {
     this.store$.dispatch(logout());

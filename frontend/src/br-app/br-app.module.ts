@@ -10,18 +10,17 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { BrAppRoutingModule } from "./br-app-routing.module";
 import { environment } from "@env/environment";
 import { AuthModule } from "./auth/auth.module";
-import { HomeComponent } from "./home/home.component";
-import { BooksFormComponent } from "./books-form/books-form.component";
 import { AuthInterceptor } from "./interceptors/auth.interceptor";
 import { AuthGuard } from "./guards/auth.guard";
 import { GuestGuard } from "./guards/guest.guard";
 import { ErrorPageComponent } from "./error-page/error-page.component";
+import { HomeModule } from "./home/home.module";
+import { UserEffects } from "./store/effects/user.effects";
+import { userReducer } from "./store/reducers/user.reducer";
 
 @NgModule({
     declarations: [
         BrAppComponent,
-        HomeComponent,
-        BooksFormComponent,
         ErrorPageComponent,
     ],
     imports: [
@@ -30,10 +29,11 @@ import { ErrorPageComponent } from "./error-page/error-page.component";
         ReactiveFormsModule,
         BrAppRoutingModule,
         HttpClientModule,
-        StoreModule.forRoot( {}),
-        EffectsModule.forRoot([]),
+        StoreModule.forRoot( { user: userReducer }),
+        EffectsModule.forRoot([UserEffects]),
         StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
         AuthModule,
+        HomeModule,
     ],
     providers: [
         AuthGuard,
