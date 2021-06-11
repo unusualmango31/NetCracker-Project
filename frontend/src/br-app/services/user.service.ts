@@ -5,6 +5,14 @@ import { HttpClient } from "@angular/common/http";
 import { select, Store } from "@ngrx/store";
 import { getIsAdmin, getUserName } from "../store/state/user.state";
 
+interface LocalStorageAuthData {
+  email: string;
+  exp: number;
+  iat: number;
+  token: string;
+  userId: string;
+}
+
 @Injectable({
   providedIn: "root"
 })
@@ -22,8 +30,7 @@ export class UserService {
   ) { }
 
   getUserData(): Observable<User | null> {
-    const authData = JSON.parse(localStorage.getItem("authData"));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const authData: LocalStorageAuthData = JSON.parse(localStorage.getItem("authData"));
     const userId = authData["userId"];
     if (userId) {
       return this.httpClient.get<User>(`/api/users/${userId}`);
