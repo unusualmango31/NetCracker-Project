@@ -20,5 +20,7 @@
             <button class="auth-button" *ngIf="authService.isGuest$ | async" (click)="auth()">Авторизация</button>
         </div>
     </div>
-    <router-outlet></router-outlet>
+    <div class="main-content">
+        <router-outlet></router-outlet>
+    </div>
 </div>

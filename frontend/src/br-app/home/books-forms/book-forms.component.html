@@ -1,1 +1,94 @@
-<p>book-forms works!</p>
+<div class="form-wrap">
+    <div class="form-container d-flex flex-column align-items-center justify-content-center overflow-auto">
+        <div class="form d-flex flex-column align-items-center" [formGroup]="form" (ngSubmit)="submit()">
+            <div class="form-container__header">
+                {{ formTitle }}
+            </div>
+            <div class="form-container__content">
+                <div class="input-field">
+                    <div class="field-name"><span class="red-text">*</span>Название</div>
+                    <input type="text" id="book-name" formControlName="name" />
+                    <div class="helper-text red-text" *ngIf="form.get('name').invalid && form.get('name').touched">
+                        <small *ngIf="form.get('name').errors.required"> Поле "Название" не может быть пустым. </small>
+                        <small *ngIf="form.get('name').errors.minlength"> Название не может быть меньше {{ form.get("name").errors.minlength.requiredLength }} символов. </small>
+                        <small *ngIf="form.get('name').errors.maxlength"> Название не может быть больше {{ form.get("name").errors.maxlength.requiredLength }} символов. </small>
+                    </div>
+                </div>
+
+                <div class="input-field">
+                    <div class="field-name"><span class="red-text">*</span>Автор</div>
+                    <input type="text" id="author" formControlName="author" />
+                    <div class="helper-text red-text" *ngIf="form.get('author').invalid && form.get('author').touched">
+                        <small *ngIf="form.get('author').errors.required"> Поле "Автор" не может быть пустым. </small>
+                        <small *ngIf="form.get('author').errors.minlength"> Имя автора не может быть меньше {{ form.get("author").errors.minlength.requiredLength }} символов. </small>
+                        <small *ngIf="form.get('author').errors.maxlength"> Имя автора не может быть больше {{ form.get("author").errors.maxlength.requiredLength }} символов. </small>
+                    </div>
+                </div>
+
+                <div class="input-field">
+                    <div class="field-name">Год</div>
+                    <input type="number" id="year" formControlName="year" />
+                    <div class="helper-text red-text" *ngIf="form.get('year').invalid && form.get('year').touched">
+                        <small *ngIf="form.get('year').errors.minlength"> Год не может быть меньше {{ form.get("year").errors.minlength.requiredLength }} символов. </small>
+                        <small *ngIf="form.get('year').errors.min"> Год не может быть меньше {{ form.get("year").errors.min.min }}. </small>
+                        <small *ngIf="form.get('year').errors.max"> Год не может быть больше {{ form.get("year").errors.max.max }}. </small>
+                    </div>
+                </div>
+
+                <div class="input-field">
+                    <div class="field-name"><span class="red-text">*</span>Жанры</div>
+                    <input type="text" id="genres" formControlName="genres" />
+                    <div class="helper-text red-text" *ngIf="form.get('genres').invalid && form.get('genres').touched">
+                        <small *ngIf="form.get('genres').errors.required"> Поле "Жанры" не может быть пустым. </small>
+                        <small *ngIf="form.get('genres').errors.minlength"> Название жанра не может быть меньше {{ form.get("genres").errors.minlength.requiredLength }} символов. </small>
+                        <small *ngIf="form.get('genres').errors.maxlength"> Название жанр не может быть больше {{ form.get("genres").errors.maxlength.requiredLength }} символов. </small>
+                    </div>
+                </div>
+
+                <div class="input-field">
+                    <div class="field-name"><span class="red-text">*</span>Теги</div>
+                    <input type="text" id="tags" formControlName="tags" />
+                    <div class="helper-text red-text" *ngIf="form.get('tags').invalid && form.get('tags').touched">
+                        <small *ngIf="form.get('tags').errors.required"> Поле "Теги" не может быть пустым. </small>
+                        <small *ngIf="form.get('tags').errors.minlength"> Поле "Теги" не может быть меньше {{ form.get("tags").errors.minlength.requiredLength }} символов. </small>
+                        <small *ngIf="form.get('tags').errors.pattern"> Неверный формат тегов </small>
+                    </div>
+                    <div class="small-helper-text">Теги вводятся через запятые без пробела в следующем формате:"название тега1,название тега2,..."</div>
+                </div>
+
+                <div class="input-field">
+                    <div class="field-name"><span class="red-text">*</span>Описание</div>
+                    <textarea id="description" formControlName="description" rows="5" cols="40"></textarea>
+                    <div class="helper-text red-text" *ngIf="form.get('description').invalid && form.get('description').touched">
+                        <small *ngIf="form.get('description').errors.required"> Поле "Описание" не может быть пустым. </small>
+                        <small *ngIf="form.get('description').errors.minlength"> Описание не может быть меньше {{ form.get("description").errors.minlength.requiredLength }} символов. </small>
+                        <small *ngIf="form.get('description').errors.maxlength"> Описание не может быть больше {{ form.get("description").errors.maxlength.requiredLength }} символов. </small>
+                    </div>
+                </div>
+
+                <div class="input-field">
+                    <div class="field-name"><span class="red-text">*</span>Рейтинг</div>
+                    <input type="number" id="rate" formControlName="rate" />
+                    <div class="helper-text red-text" *ngIf="form.get('rate').invalid && form.get('rate').touched">
+                        <small *ngIf="form.get('rate').errors.required"> Поле "Рейтинг" не может быть пустым. </small>
+                        <small *ngIf="form.get('rate').errors.min"> Рейтинг не может быть меньше {{ form.get("rate").errors.min.min }}. </small>
+                        <small *ngIf="form.get('rate').errors.max"> Рейтинг не может быть больше {{ form.get("rate").errors.max.max }}. </small>
+                    </div>
+                </div>
+
+                <div class="input-field">
+                    <div class="field-name" ngbTooltip="Tooltip on top">URL картинки</div>
+                    <input type="text" id="imgUrl" formControlName="imgUrl" />
+                    <div class="helper-text red-text" *ngIf="form.get('imgUrl').invalid && form.get('imgUrl').touched">
+                        <small *ngIf="form.get('imgUrl').errors.pattern">Неверный формат ссылки.</small>
+                    </div>
+                    <div class="small-helper-text">Ссылка должна быть в формате "https://...."</div>
+                </div>
+            </div>
+            <div class="form-container__action d-flex justify-content-end">
+                <button type="reset" class="button-reset" (click)="cancel()">Отменить</button>
+                <button type="submit" [disabled]="form.invalid || form.disabled" (click)="submit()">Подтвердить</button>
+            </div>
+        </div>
+    </div>
+</div>
