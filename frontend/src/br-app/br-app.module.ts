@@ -34,7 +34,15 @@ import { MatIconModule } from "@angular/material/icon";
         ReactiveFormsModule,
         BrAppRoutingModule,
         HttpClientModule,
-        StoreModule.forRoot( { user: userReducer, books: booksReducer }),
+        // StoreModule.forRoot( { user: userReducer, books: booksReducer }),
+        StoreModule.forRoot({ user: userReducer, books: booksReducer }, {
+            runtimeChecks: {
+                strictStateImmutability: true,
+                strictActionImmutability: true,
+                strictStateSerializability: true,
+                strictActionSerializability: true,
+            },
+        }),
         EffectsModule.forRoot([UserEffects, BooksEffects]),
         StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
         AuthModule,
