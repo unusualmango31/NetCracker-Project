@@ -13,5 +13,21 @@ export const initialBooksState = {
 const getFeature = createFeatureSelector<BooksState>(BOOKS_FEATURE_NAME);
 
 export const getBooks = createSelector(getFeature, (state) => state.books);
+export const getAllGenres = createSelector(getBooks, (books) => {
+   const genres: string[] = [];
+   for (const book of books) {
+       if ( !genres.includes(book.genres) ) {
+           genres.push(book.genres);
+       }
+   }
+   return genres;
+});
+export const getSortedBooks = createSelector(getBooks, (books) => {
+    const booksClone: Book[] = Object.assign([], books);
+    // eslint-disable-next-line etc/no-assign-mutated-array
+    return booksClone.sort( (a, b) => {
+        return b.rate - a.rate;
+    });
+});
 
 

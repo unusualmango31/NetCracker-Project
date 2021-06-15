@@ -10,9 +10,11 @@
             <hr *ngIf="authService.isAuth$ | async" class="secondary" />
             <p *ngIf="userService.isAdmin$ | async" class="panel__text red-text"> Аккаунт с административными возможностями </p>
             <hr *ngIf="userService.isAdmin$ | async" class="secondary" />
-            <p class="panel__text"> Чтобы получить рекомендации нажми на кнопку "рекомендации" снизу </p>
+            <p class="panel__text" *ngIf="isHomePage"> Чтобы получить рекомендации нажмите на кнопку "рекомендации" снизу </p>
+            <p class="panel__text" *ngIf="!isHomePage"> Чтобы вернуться на главную страницу нажмите на кнопку "на главную" снизу </p>
             <hr class="secondary" />
-            <button (click)="test()">Рекомендации</button>
+            <button *ngIf="isHomePage" (click)="test()">Рекомендации</button>
+            <button *ngIf="!isHomePage" (click)="test()">На главную</button>
         </div>
         <hr />
         <div class="panel__auth-actions">

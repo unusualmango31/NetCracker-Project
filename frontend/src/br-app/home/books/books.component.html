@@ -1,5 +1,5 @@
-<div class="container">
-    <div class="wrap">
+<div class="wrap">
+    <div class="container">
         <button class="btn" *ngIf="userService.isAdmin$ | async" (click)="addBook()">Добавить книгу</button>
         <table class="table table-striped">
             <thead>
@@ -14,7 +14,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let book of booksService.books$ | async | slice: (page - 1) * pageSize:page * pageSize; let i = index">
-                    <th scope="row">{{ i }}</th>
+                    <th scope="row">{{ getIndexForCurrentPage(i) }}</th>
                     <td>{{ book.name }}</td>
                     <td>{{ book.author }}</td>
                     <td>{{ book.genres }}</td>
@@ -23,7 +23,7 @@
                         <button class="icon-button" (click)="openModal(bookDescription, 'description', book)">
                             <mat-icon>visibility</mat-icon>
                         </button>
-                        <button class="icon-button" *ngIf="userService.isAdmin$ | async" (click)="editBook(i, book)">
+                        <button class="icon-button" *ngIf="userService.isAdmin$ | async" (click)="editBook(getIndexForCurrentPage(i), book)">
                             <mat-icon aria-hidden="false">edit</mat-icon>
                         </button>
                         <button class="icon-button" *ngIf="userService.isAdmin$ | async" (click)="openModal(deleteBook, 'delete', book)">
@@ -34,7 +34,7 @@
             </tbody>
         </table>
         <div class="d-flex justify-content-center">
-            <ngb-pagination [collectionSize]="collectionSize" [pageSize]="5" [(page)]="page" [maxSize]="5" [boundaryLinks]="true"></ngb-pagination>
+            <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pageSize" [(page)]="page" [boundaryLinks]="true"></ngb-pagination>
         </div>
     </div>
     <router-outlet></router-outlet>

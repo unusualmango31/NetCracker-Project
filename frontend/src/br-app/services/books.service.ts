@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { Book } from "../models/books";
-import { getBooks } from "../store/state/books.state";
+import { getAllGenres, getBooks, getSortedBooks } from "../store/state/books.state";
 
 @Injectable({
   providedIn: "root"
@@ -11,6 +11,12 @@ import { getBooks } from "../store/state/books.state";
 export class BooksService {
   books$ = this.store$.pipe(
       select(getBooks),
+  );
+  sortedBooks$ = this.store$.pipe(
+      select(getSortedBooks),
+  );
+  genres$ = this.store$.pipe(
+      select(getAllGenres),
   );
   selectedBook: Book;
   constructor(
