@@ -4,6 +4,7 @@ import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 
+
 import { BrAppComponent } from "./br-app.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
@@ -17,6 +18,10 @@ import { ErrorPageComponent } from "./error-page/error-page.component";
 import { HomeModule } from "./home/home.module";
 import { UserEffects } from "./store/effects/user.effects";
 import { userReducer } from "./store/reducers/user.reducer";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { BooksEffects } from "./store/effects/books.effects";
+import { booksReducer } from "./store/reducers/books.reducer";
+import { MatIconModule } from "@angular/material/icon";
 
 @NgModule({
     declarations: [
@@ -29,11 +34,21 @@ import { userReducer } from "./store/reducers/user.reducer";
         ReactiveFormsModule,
         BrAppRoutingModule,
         HttpClientModule,
-        StoreModule.forRoot( { user: userReducer }),
-        EffectsModule.forRoot([UserEffects]),
+        // StoreModule.forRoot( { user: userReducer, books: booksReducer }),
+        StoreModule.forRoot({ user: userReducer, books: booksReducer }, {
+            runtimeChecks: {
+                strictStateImmutability: true,
+                strictActionImmutability: true,
+                strictStateSerializability: true,
+                strictActionSerializability: true,
+            },
+        }),
+        EffectsModule.forRoot([UserEffects, BooksEffects]),
         StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
         AuthModule,
         HomeModule,
+        NgbModule,
+        MatIconModule,
     ],
     providers: [
         AuthGuard,

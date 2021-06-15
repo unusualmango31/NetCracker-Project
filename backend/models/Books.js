@@ -6,23 +6,30 @@ const booksSchema = new Schema({
         type: String,
         required: true
     },
-    author: [ String ],
+    author: {
+        type: String,
+        required: true
+    },
     description: {
         type: String,
     },
     year: {
-        type: Date
+        type: Number
     },
     rate: {
         type: Number,
         required: true
     },
-    genres: [ String ],
-    imgSrc: {
+    genres: {
+        type: String,
+        required: true
+    },
+    imgUrl: {
         type: String,
         default: ""
     },
-    tags: [ String ]
+    tags: [ String ],
+    description: String
 });
 
 module.exports = mongoose.model("books", booksSchema);

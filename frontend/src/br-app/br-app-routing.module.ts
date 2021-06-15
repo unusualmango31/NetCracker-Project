@@ -18,9 +18,11 @@ const routes: Routes = [
     },
     {
         path: "home", component: HomeComponent, children: [
-            { path: "", component: BooksComponent },
-            { path: "book/add", component: BookFormsComponent },
-            { path: "book/edit/:id", component: BookFormsComponent },
+            { path: "", component: BooksComponent, children: [
+                { path: "book/add", component: BookFormsComponent },
+                { path: "book/edit/:id", component: BookFormsComponent },
+            ] },
+
         ]
     },
     { path: "error", component: ErrorPageComponent },

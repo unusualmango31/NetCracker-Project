@@ -1,1 +1,70 @@
-//
+@import "../../../assets/colors";
+
+.wrap {
+  margin-top: 100px;
+}
+.table {
+  margin-top: 10px;
+}
+button {
+  width: 200px;
+  border-radius: 15px;
+  padding: 5px;
+  background: @blueColor;
+  color: white;
+  border: 0;
+}
+
+.button-small {
+  width: 120px;
+}
+
+button:hover {
+  color: white;
+  transform:scale(1.1,1.1);
+  -webkit-transform:scale(1.1,1.1);
+  -moz-transform:scale(1.1,1.1);
+}
+
+button:active {
+  color: white;
+  background: @LightBlueColor;
+  transform:scale(1,1);
+  -webkit-transform:scale(1,1);
+  -moz-transform:scale(1,1);
+}
+
+button.icon-button {
+  background: none;
+  color: @greyColor;
+  width: 20px;
+  margin-left: 10px;
+  padding: 0;
+  border-radius: 0;
+}
+
+.book-cover {
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  height: 340px;
+  width: 220px;
+}
+
+.button-reset {
+  margin-right: 10px;
+  background: none;
+  border: 1px solid @blueColor;
+  color: @blackColor;
+}
+
+.button-reset:hover {
+  color: @blackColor;
+}
+
+.button-reset:active {
+  background: none;
+  color: @greyColor;
+}
+.modal-field {
+  width: 220px;
+}

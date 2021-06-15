@@ -26,7 +26,6 @@ export class UserEffects {
     getAuthUserData$ = createEffect( () => this.actions$.pipe(
         ofType(loginSuccess),
         map( () => {
-            console.log("get user data after login");
             return getUserData();
         }),
     ));

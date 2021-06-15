@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { BookFormsComponent } from "./books-forms/book-forms.component";
 import { BooksComponent } from "./books/books.component";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { MatIconModule } from "@angular/material/icon";
 
 
 
@@ -14,11 +16,13 @@ import { BooksComponent } from "./books/books.component";
     BookFormsComponent,
     BooksComponent,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    ReactiveFormsModule,
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        RouterModule,
+        ReactiveFormsModule,
+        NgbModule,
+        MatIconModule,
+    ],
 })
 export class HomeModule { }

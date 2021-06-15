@@ -1,40 +1,82 @@
-<div
-    >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque error labore libero nisi officia optio praesentium similique totam, voluptatibus? Alias amet blanditiis illo, placeat sapiente
-    unde voluptatum. Hic, perferendis, similique!
+<div class="container">
+    <div class="wrap">
+        <button class="btn" *ngIf="userService.isAdmin$ | async" (click)="addBook()">Добавить книгу</button>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">№</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Авторы</th>
+                    <th scope="col">Жанр</th>
+                    <th scope="col">Рейтинг</th>
+                    <th scope="col">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let book of booksService.books$ | async | slice: (page - 1) * pageSize:page * pageSize; let i = index">
+                    <th scope="row">{{ i }}</th>
+                    <td>{{ book.name }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.genres }}</td>
+                    <td>{{ book.rate }}</td>
+                    <td>
+                        <button class="icon-button" (click)="openModal(bookDescription, 'description', book)">
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                        <button class="icon-button" *ngIf="userService.isAdmin$ | async" (click)="editBook(i, book)">
+                            <mat-icon aria-hidden="false">edit</mat-icon>
+                        </button>
+                        <button class="icon-button" *ngIf="userService.isAdmin$ | async" (click)="openModal(deleteBook, 'delete', book)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+            <ngb-pagination [collectionSize]="collectionSize" [pageSize]="5" [(page)]="page" [maxSize]="5" [boundaryLinks]="true"></ngb-pagination>
+        </div>
+    </div>
+    <router-outlet></router-outlet>
 </div>
-<div
-    >Ab accusamus accusantium adipisci architecto autem consectetur consequuntur deleniti distinctio, dolores eaque expedita facilis fugiat ipsum iste, itaque iusto molestias natus officia omnis
-    perspiciatis porro provident quos sapiente sequi voluptatem?
-</div>
-<div
-    >Accusamus architecto at cumque ea eligendi esse excepturi exercitationem expedita explicabo fugiat incidunt laboriosam maiores minima nostrum perferendis quaerat qui quibusdam, quos ratione
-    reprehenderit sit temporibus tenetur! Est quae, ratione?
-</div>
-<div
-    >Illum impedit iste itaque minus officia, velit. Aliquid atque autem blanditiis distinctio, ipsa, iure minus pariatur porro quasi qui quo reiciendis repudiandae voluptatibus. Delectus doloremque
-    doloribus inventore omnis soluta ullam!
-</div>
-<div
-    >Accusantium aspernatur at consequatur, corporis dignissimos labore, laborum minus, molestias nesciunt odit officiis porro quaerat quasi rerum vitae! Animi, autem beatae delectus dolorum
-    reiciendis reprehenderit sunt? Delectus nihil ratione vitae.
-</div>
-<div
-    >Amet asperiores beatae distinctio doloremque magnam maxime necessitatibus placeat sequi suscipit veniam! Consectetur earum enim nam possimus. Atque dicta exercitationem explicabo molestias nam
-    pariatur reiciendis ut! Consequatur culpa similique velit.
-</div>
-<div
-    >Asperiores quos saepe vero voluptas! Ab aut corporis eius error facere, fugiat harum id itaque laudantium mollitia necessitatibus nisi obcaecati omnis quam quisquam reiciendis vel? Dolorum esse
-    nisi qui repellendus!
-</div>
-<div
-    >Assumenda deleniti distinctio dolor eius eligendi eum ex iure nemo obcaecati quaerat quisquam, quos similique temporibus veniam vero. Consectetur dolorum facere ipsum voluptate. Aliquam, earum
-    perspiciatis porro repudiandae sunt vero.
-</div>
-<div
-    >A accusamus, ad alias amet aperiam consequuntur debitis deleniti dolores error esse eveniet id impedit minus neque numquam officiis omnis quaerat quam, qui repellendus sapiente tempora tenetur
-    totam vitae voluptate?
-</div>
-<div
-    >Eaque hic impedit iure numquam perferendis porro quia sint totam veniam voluptas. Aliquam consequuntur dolor dolores ea eius eligendi fugiat soluta velit vero voluptates! Architecto eaque nulla
-    optio rem similique.
-</div>
+<ng-template #bookDescription let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">{{ booksService.selectedBook.name }}</h4>
+        <button type="button" class="icon-button" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body d-flex justify-content-between">
+        <div class="modal-fields">
+            <h5>Автор</h5>
+            <div class="modal-field">{{ booksService.selectedBook.author }}</div>
+            <h5>Жанр</h5>
+            <div class="modal-field">{{ booksService.selectedBook.genres }}</div>
+            <h5 *ngIf="!!booksService.selectedBook.year">Год</h5>
+            <div class="modal-field" *ngIf="!!booksService.selectedBook.year">{{ booksService.selectedBook.year }}</div>
+            <h5>Описание</h5>
+            <div class="modal-field">{{ booksService.selectedBook.description }}</div>
+            <h5>Рейтинг</h5>
+            <div class="modal-field">{{ booksService.selectedBook.rate }}</div>
+        </div>
+        <div class="book-cover" [style.backgroundImage]="coverUrl"> </div>
+    </div>
+    <div class="modal-footer">
+        <button class="button-reset button-small" type="button" (click)="modal.close('Close click')">Закрыть</button>
+    </div>
+</ng-template>
+<ng-template #deleteBook let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Удаление</h4>
+        <button type="button" class="icon-button" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body d-flex justify-content-between">
+        <div class="modal-fields"> Вы действительно хотите удалить? </div>
+    </div>
+    <div class="modal-footer">
+        <button class="button-small" type="button" (click)="modal.close(deleteSelectedBook())">Удалить</button>
+        <button class="button-reset button-small" type="button" (click)="modal.close('Close click')">Закрыть</button>
+    </div>
+</ng-template>
