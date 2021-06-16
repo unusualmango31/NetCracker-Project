@@ -23,11 +23,10 @@ export const getAllGenres = createSelector(getBooks, (books) => {
    return genres;
 });
 export const getSortedBooks = createSelector(getBooks, (books) => {
-    const booksClone: Book[] = Object.assign([], books);
-    // eslint-disable-next-line etc/no-assign-mutated-array
-    return booksClone.sort( (a, b) => {
+    const booksClone: Book[] = [...books].sort( (a, b) => {
         return b.rate - a.rate;
     });
+    return booksClone;
 });
 
 
