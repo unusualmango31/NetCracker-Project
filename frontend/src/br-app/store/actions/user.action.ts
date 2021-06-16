@@ -14,6 +14,14 @@ export const getUserDataFail = createAction(
     "[User] failed to get user data",
     props<{ errors: string }>(),
 );
+export const updateUser = createAction(
+    "[User] user update",
+    props<{ userData: User }>(),
+);
+export const updateUserSuccess = createAction(
+    "[User] user has been updated",
+    props<{ userData: User }>(),
+);
 export const userLogout = createAction(
     "[User] user logout",
 );

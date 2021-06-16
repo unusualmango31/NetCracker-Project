@@ -47,7 +47,6 @@ export class BookFormsComponent implements OnInit, OnDestroy {
             this.formTitle = "Добавление";
           }
           if (url[1].path === "edit") {
-            console.log(this.booksService.selectedBook);
             this.formTitle = "Редактирование";
             this.formSetValueFromService();
           }
@@ -59,7 +58,6 @@ export class BookFormsComponent implements OnInit, OnDestroy {
   }
 
   formInit(): void {
-    console.log("form init");
     this.form = new FormGroup({
       name: new FormControl(null,
           [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
@@ -81,7 +79,7 @@ export class BookFormsComponent implements OnInit, OnDestroy {
       description: new FormControl(null,
           [Validators.required, Validators.minLength(4), Validators.maxLength(500)]),
 
-      imgUrl: new FormControl(null, []),
+      imgUrl: new FormControl(null, [Validators.minLength(6), Validators.maxLength(300)]),
     });
   }
   formSetValueFromService(): void {
@@ -99,9 +97,9 @@ export class BookFormsComponent implements OnInit, OnDestroy {
 
   submit(): void {
     const formValue: FormFields = this.form.value;
-
     if (this.formTitle === "Добавление") {
       const tags = formValue.tags.split(",");
+      console.log({ ...formValue, tags });
       this.store$.dispatch(createBook( { book: { ...formValue, tags } } ));
     }
     if (this.formTitle === "Редактирование") {

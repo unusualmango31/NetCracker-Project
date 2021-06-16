@@ -33,15 +33,30 @@
     <div class="footer">
         <div class="footer-container d-flex flex-column justify-content-center">
             <div class="footer-content d-flex flex-column align-items-center">
-                <h4 class="d-block text-center"> Пожалуйста, выберите хотя бы 5 книг, которые вам понравились и нажмите кнопку далее </h4>
+                <h5 class="d-block text-center"> Пожалуйста, выберите хотя бы 5 книг, которые вам понравились и нажмите кнопку далее </h5>
                 <hr />
                 <p *ngIf="authService.isAuth$" class="text-center"
                     >Посторайтесь выбрать те книги, которые вам действительно понравились, так как в дальнейшем они сделают ваши рекомендации более точными</p
                 >
             </div>
             <div class="footer-action d-flex justify-content-center">
-                <button [disabled]="selectedBooks.length >= 5 ? false : true" (click)="submit()">Далее</button>
+                <button [disabled]="selectedBooks.length >= 5 ? false : true" (click)="submit(addTags)">Далее</button>
             </div>
         </div>
     </div>
 </div>
+<ng-template #addTags let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Добавление информации в ваш аккаунт</h4>
+    </div>
+    <div class="modal-body d-flex flex-column justify-content-center align-items-center">
+        <div class="modal-fields">
+            <p class="text-center"> Система может запомнить ваш выбор и добавить необходимую информацию о выбранных вами книгах в ваш аккаунт для улучшения повторных рекомендаций </p>
+        </div>
+        <div class="modal-fields"> Желаете добавить? </div>
+    </div>
+    <div class="modal-footer">
+        <button class="button-small" type="button" (click)="modal.close(addTagsToUserAcc())">Добавить</button>
+        <button class="button-reset button-small" type="button" (click)="modal.close(cancelAdd())">Отменить</button>
+    </div>
+</ng-template>

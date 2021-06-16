@@ -1,5 +1,11 @@
 import { createReducer, on } from "@ngrx/store";
-import { getUserData, getUserDataFail, getUserDataSuccess, userLogout } from "../actions/user.action";
+import {
+    getUserData,
+    getUserDataFail,
+    getUserDataSuccess,
+    updateUserSuccess,
+    userLogout,
+} from "../actions/user.action";
 import { initialUserState, UserState } from "../state/user.state";
 
 export const userReducer = createReducer(
@@ -20,6 +26,11 @@ export const userReducer = createReducer(
     on(userLogout, (state): UserState => ({
         ...state,
         userData: null,
+        errors: null,
+    })),
+    on(updateUserSuccess, (state, { userData }): UserState => ({
+        ...state,
+        userData,
         errors: null,
     })),
 );

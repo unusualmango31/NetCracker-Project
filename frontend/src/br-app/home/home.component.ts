@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log("home is work");
+    console.log("homepage is working");
   }
   test(): void {
     this.isHomePage ? this.router.navigate(["home/recommendations"]) : this.router.navigate(["home"]);
