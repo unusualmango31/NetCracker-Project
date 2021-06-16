@@ -57,11 +57,6 @@ export class RecommendationsComponent implements OnInit, OnDestroy {
         .subscribe( (tags) => {
           this.userTags = tags;
         });
-    this.userService.user$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe( (user) => {
-          this.userService.currentUser = user;
-        });
     this.authService.isAuth$
         .pipe(takeUntil(this.destroy$))
         .subscribe( (isAuth) => {
@@ -140,8 +135,8 @@ export class RecommendationsComponent implements OnInit, OnDestroy {
   }
   addTagsToUserAcc(): void {
     const newTags = Object.assign(this.getAllTags());
-    const currentUser = { ...this.userService.currentUser, tags: newTags };
-    this.store$.dispatch(updateUser({ userData: currentUser }));
+    const updatedCurrentUser = { ...this.userService.currentUser, tags: newTags };
+    this.store$.dispatch(updateUser({ userData: updatedCurrentUser }));
     this.router.navigate(["home/recommendations/result"]);
   }
   cancelAdd(): void {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnDestroy } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { AuthService } from "../services/auth.service";
 import { logout } from "../store/actions/auth.action";
@@ -13,7 +13,7 @@ import { UserService } from "../services/user.service";
   styleUrls: ["./home.component.less"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnDestroy {
   isHomePage = true;
   private destroy$ = new Subject();
   constructor(
@@ -29,9 +29,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  ngOnInit(): void {
-    console.log("homepage is working");
-  }
   test(): void {
     this.isHomePage ? this.router.navigate(["home/recommendations"]) : this.router.navigate(["home"]);
     this.isHomePage = !this.isHomePage;

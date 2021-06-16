@@ -99,7 +99,6 @@ export class BookFormsComponent implements OnInit, OnDestroy {
     const formValue: FormFields = this.form.value;
     if (this.formTitle === "Добавление") {
       const tags = formValue.tags.split(",");
-      console.log({ ...formValue, tags });
       this.store$.dispatch(createBook( { book: { ...formValue, tags } } ));
     }
     if (this.formTitle === "Редактирование") {

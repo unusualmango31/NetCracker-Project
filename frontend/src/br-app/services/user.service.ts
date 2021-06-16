@@ -35,6 +35,9 @@ export class UserService {
       private httpClient: HttpClient,
       private store$: Store,
   ) {
+    this.user$.subscribe( (user) => {
+      this.currentUser = user;
+    });
   }
 
   getUserData(): Observable<User | null> {
