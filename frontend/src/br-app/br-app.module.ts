@@ -22,6 +22,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { BooksEffects } from "./store/effects/books.effects";
 import { booksReducer } from "./store/reducers/books.reducer";
 import { MatIconModule } from "@angular/material/icon";
+import { RecommendationsModule } from "./recommendations/recommendations.module";
+import { Ng2SearchPipeModule } from "ng2-search-filter";
 
 @NgModule({
     declarations: [
@@ -34,7 +36,6 @@ import { MatIconModule } from "@angular/material/icon";
         ReactiveFormsModule,
         BrAppRoutingModule,
         HttpClientModule,
-        // StoreModule.forRoot( { user: userReducer, books: booksReducer }),
         StoreModule.forRoot({ user: userReducer, books: booksReducer }, {
             runtimeChecks: {
                 strictStateImmutability: true,
@@ -47,8 +48,10 @@ import { MatIconModule } from "@angular/material/icon";
         StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
         AuthModule,
         HomeModule,
+        RecommendationsModule,
         NgbModule,
         MatIconModule,
+        Ng2SearchPipeModule,
     ],
     providers: [
         AuthGuard,
@@ -59,7 +62,9 @@ import { MatIconModule } from "@angular/material/icon";
             multi: true,
         },
     ],
-    bootstrap: [ BrAppComponent],
+    bootstrap: [BrAppComponent],
+    exports: [
+    ],
 })
 export class BrAppModule {
 }

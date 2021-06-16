@@ -7,6 +7,8 @@ import { GuestGuard } from "./guards/guest.guard";
 import { ErrorPageComponent } from "./error-page/error-page.component";
 import { BooksComponent } from "./home/books/books.component";
 import { BookFormsComponent } from "./home/books-forms/book-forms.component";
+import { RecommendationsComponent } from "./recommendations/recommendations.component";
+import { RecommendationsResultComponent } from "./recommendations/recommendations-result/recommendations-result.component";
 
 const routes: Routes = [
     {
@@ -22,7 +24,8 @@ const routes: Routes = [
                 { path: "book/add", component: BookFormsComponent },
                 { path: "book/edit/:id", component: BookFormsComponent },
             ] },
-
+            { path: "recommendations", component: RecommendationsComponent },
+            { path: "recommendations/result", component: RecommendationsResultComponent },
         ]
     },
     { path: "error", component: ErrorPageComponent },

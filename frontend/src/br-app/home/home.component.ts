@@ -14,6 +14,7 @@ import { UserService } from "../services/user.service";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  isHomePage = true;
   private destroy$ = new Subject();
   constructor(
       private httpClient: HttpClient,
@@ -32,12 +33,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     console.log("home is work");
   }
   test(): void {
-    console.log("редирект на составление рекомендаций");
+    this.isHomePage ? this.router.navigate(["home/recommendations"]) : this.router.navigate(["home"]);
+    this.isHomePage = !this.isHomePage;
   }
   logout(): void {
     this.store$.dispatch(logout());
   }
   auth(): void {
-    this.router.navigate(["/login"]);
+    this.router.navigate(["login"]);
   }
 }

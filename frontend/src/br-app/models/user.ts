@@ -4,4 +4,5 @@ export interface User {
     password: string;
     tags: string[];
     isAdmin: boolean;
+    booksIds?: string[];
 }

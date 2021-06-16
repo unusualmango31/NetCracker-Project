@@ -30,7 +30,7 @@ export class BooksComponent implements OnInit, OnDestroy {
       public userService: UserService,
   ) {
     this.page = 1;
-    this.pageSize = 7;
+    this.pageSize = 6;
   }
 
   ngOnInit(): void {
@@ -63,5 +63,8 @@ export class BooksComponent implements OnInit, OnDestroy {
   editBook(bookIndex: number, selectedBook: Book): void {
     this.booksService.selectedBook = selectedBook;
     this.router.navigate([`home/book/edit/${bookIndex}`]);
+  }
+  getIndexForCurrentPage(index: number): number {
+    return index + (this.pageSize * (this.page - 1));
   }
 }

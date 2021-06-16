@@ -81,8 +81,7 @@ export class BookFormsComponent implements OnInit, OnDestroy {
       description: new FormControl(null,
           [Validators.required, Validators.minLength(4), Validators.maxLength(500)]),
 
-      imgUrl: new FormControl(null,
-          [Validators.pattern(/^(https:\/\/)+[\s\S]*$/)]),
+      imgUrl: new FormControl(null, []),
     });
   }
   formSetValueFromService(): void {
