@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const cryptoJS = require("crypto-js");
 
 const keys = require("../config/keys");
 const Users = require("../models/Users");
@@ -12,7 +13,7 @@ module.exports.login = async (req, res) => {
     });
 
     if (loginWithEmail) {
-        const passwordCompare = bcrypt.compareSync(req.body.password, loginWithEmail.password);
+        const passwordCompare = bcrypt.compareSync(cryptoJS.AES.decrypt(req.body.password, "recommendation".trim()).toString(cryptoJS.enc.Utf8), loginWithEmail.password);
 
         if (passwordCompare) {
             //Генерация токена
@@ -57,7 +58,7 @@ module.exports.register = async (req, res) => {
         });
     } else {
         const salt = bcrypt.genSaltSync(10);
-        const password = req.body.password;
+        const password = cryptoJS.AES.decrypt(req.body.password, "recommendation".trim()).toString(cryptoJS.enc.Utf8);
         const user = new Users({
             email: req.body.email,
             username: req.body.username,

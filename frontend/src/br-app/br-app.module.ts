@@ -26,6 +26,7 @@ import { RecommendationsModule } from "./recommendations/recommendations.module"
 import { Ng2SearchPipeModule } from "ng2-search-filter";
 import { recommendationsReducer } from "./store/reducers/recommendations.reducer";
 import { RecommendationsEffects } from "./store/effects/recommendations.effects";
+import { Ng2OrderModule } from "ng2-order-pipe";
 
 @NgModule({
     declarations: [
@@ -58,6 +59,7 @@ import { RecommendationsEffects } from "./store/effects/recommendations.effects"
         NgbModule,
         MatIconModule,
         Ng2SearchPipeModule,
+        Ng2OrderModule,
     ],
     providers: [
         AuthGuard,

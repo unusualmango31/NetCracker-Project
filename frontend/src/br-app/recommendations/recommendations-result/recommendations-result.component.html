@@ -19,7 +19,7 @@
                         <p class="card-text text-truncate d-block">{{ book.author }}</p>
                         <hr />
                         <p class="card-text">Рейтинг: {{ book.rate }}</p>
-                        <p class="card-text">Эта книга вам подходит на: {{ book.coefficient * 100 + "%" }}</p>
+                        <p class="card-text">Процент схожести с вашими вкусами: {{ book.coefficient | percent }}</p>
                     </div>
                 </div>
             </div>

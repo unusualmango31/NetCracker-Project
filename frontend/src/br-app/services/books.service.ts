@@ -15,7 +15,6 @@ export class BooksService {
   sortedBooks$ = this.store$.pipe(
       select(getSortedBooks),
   );
-
   selectedBook: Book;
 
   constructor(
