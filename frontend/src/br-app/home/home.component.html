@@ -13,8 +13,8 @@
             <p class="panel__text" *ngIf="isHomePage"> Чтобы получить рекомендации нажмите на кнопку "рекомендации" снизу </p>
             <p class="panel__text" *ngIf="!isHomePage"> Чтобы вернуться на главную страницу нажмите на кнопку "на главную" снизу </p>
             <hr class="secondary" />
-            <button *ngIf="isHomePage" (click)="test()">Рекомендации</button>
-            <button *ngIf="!isHomePage" (click)="test()">На главную</button>
+            <button *ngIf="isHomePage" (click)="getRecommendOrReturn()">Рекомендации</button>
+            <button *ngIf="!isHomePage" (click)="getRecommendOrReturn()">На главную</button>
         </div>
         <hr />
         <div class="panel__auth-actions">

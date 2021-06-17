@@ -52,16 +52,18 @@ export class RecommendationsComponent implements OnInit, OnDestroy {
           this.booksFromServer = books;
           this.books = Object.assign([], books);
         });
-    this.userService.tags$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe( (tags) => {
-          this.userTags = tags;
-        });
     this.authService.isAuth$
         .pipe(takeUntil(this.destroy$))
         .subscribe( (isAuth) => {
           this.isAuth = isAuth;
         });
+    if (this.isAuth) {
+      this.userService.tags$
+          .pipe(takeUntil(this.destroy$))
+          .subscribe( (tags) => {
+            this.userTags = tags;
+          });
+    }
 
   }
   ngOnDestroy(): void {
@@ -130,8 +132,14 @@ export class RecommendationsComponent implements OnInit, OnDestroy {
   }
 
   submit(modalTemplateRef: TemplateRef<unknown>): void {
-    this.modalService.open(modalTemplateRef, { scrollable: true, centered: true });
     this.store$.dispatch( addTags( { tags: this.getAllTags(), selectedBooks: this.selectedBooks } ));
+
+    if (this.isAuth) {
+      this.modalService.open(modalTemplateRef, { scrollable: true, centered: true });
+    }
+    if (!this.isAuth) {
+      this.router.navigate(["home/recommendations/result"]);
+    }
   }
   addTagsToUserAcc(): void {
     const newTags = Object.assign(this.getAllTags());

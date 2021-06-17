@@ -7,6 +7,7 @@ import { BookFormsComponent } from "./books-forms/book-forms.component";
 import { BooksComponent } from "./books/books.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatIconModule } from "@angular/material/icon";
+import { Ng2OrderModule } from "ng2-order-pipe";
 
 
 
@@ -23,6 +24,7 @@ import { MatIconModule } from "@angular/material/icon";
         ReactiveFormsModule,
         NgbModule,
         MatIconModule,
+        Ng2OrderModule,
     ],
 })
 export class HomeModule { }

@@ -29,7 +29,7 @@ export class HomeComponent implements OnDestroy {
     this.destroy$.complete();
   }
 
-  test(): void {
+  getRecommendOrReturn(): void {
     this.isHomePage ? this.router.navigate(["home/recommendations"]) : this.router.navigate(["home"]);
     this.isHomePage = !this.isHomePage;
   }

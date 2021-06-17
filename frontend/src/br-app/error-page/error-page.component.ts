@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "br-error-page",
@@ -6,9 +7,13 @@ import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
   styleUrls: ["./error-page.component.less"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ErrorPageComponent implements OnInit {
-  ngOnInit(): void {
-    console.log("ErrorPage");
+export class ErrorPageComponent {
+  constructor(
+      private router: Router,
+  ) {
+  }
+  return(): void {
+    this.router.navigate(["/home"]);
   }
 
 }
