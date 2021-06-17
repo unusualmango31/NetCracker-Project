@@ -1,10 +1,15 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, TemplateRef } from "@angular/core";
 import { BooksService } from "../services/books.service";
 import { Book } from "../models/books";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { addTags } from "../store/actions/recommendations.action";
+import { UserService } from "../services/user.service";
+import { updateUser } from "../store/actions/user.action";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "br-recommendations",
@@ -16,18 +21,23 @@ export class RecommendationsComponent implements OnInit, OnDestroy {
   selectedBooks: Book[] = [];
   booksFromServer: Book[];
   books: Book[];
+  userTags: string[];
   nameForSearch: string;
   page: number;
   pageSize: number;
-  isLoadPossible: boolean;
   collectionSize: number;
-  booksTags: string[] = [];
+  isLoadPossible: boolean;
+  isAuth: boolean;
+
   private destroy$ = new Subject();
 
   constructor(
       public booksService: BooksService,
+      public userService: UserService,
       public authService: AuthService,
+      private modalService: NgbModal,
       private router: Router,
+      private store$: Store,
   ) {
     this.page = 1;
     this.isLoadPossible = true;
@@ -42,20 +52,53 @@ export class RecommendationsComponent implements OnInit, OnDestroy {
           this.booksFromServer = books;
           this.books = Object.assign([], books);
         });
+    this.userService.tags$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe( (tags) => {
+          this.userTags = tags;
+        });
+    this.authService.isAuth$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe( (isAuth) => {
+          this.isAuth = isAuth;
+        });
+
   }
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  selectBook(book: Book): void {
-    const selectedTags: string[] = book.tags;
-    for (const selectedTag of selectedTags) {
-      if (!this.booksTags.includes(selectedTag)) {
-        this.booksTags.push(selectedTag);
+  getBooksTags(): string[] {
+    const selectedTags: string[] = [];
+    for (const book of this.selectedBooks) {
+      for (const tag of book.tags) {
+        if (!selectedTags.includes(tag)) {
+          selectedTags.push(tag);
+        }
       }
     }
-    console.log(this.booksTags);
+    return selectedTags;
   }
+  getAllTags(): string[] {
+    const tags: string[] = [];
+    const booksTags = this.getBooksTags();
+    if (booksTags.length > 0) {
+      for (const bookTag of booksTags) {
+        if (!tags.includes(bookTag.toLowerCase())) {
+          tags.push(bookTag.toLowerCase());
+        }
+      }
+    }
+    if (this.isAuth && this.userTags.length > 0) {
+      for (const userTag of this.userTags) {
+        if (!tags.includes(userTag.toLowerCase())) {
+          tags.push(userTag.toLowerCase());
+        }
+      }
+    }
+    return tags;
+  }
+
   isBookSelected(book: Book): boolean {
     if (this.selectedBooks.includes(book)) {
       return true;
@@ -69,10 +112,10 @@ export class RecommendationsComponent implements OnInit, OnDestroy {
     } else {
       this.selectedBooks = this.selectedBooks.filter( (book) => book._id !== selectedBook._id);
     }
-    console.log(this.selectedBooks);
   }
+
   getIndexForCurrentPage(index: number): number {
-    return  this.page === 1 ? index : index + this.pageSize;
+    return this.page === 1 ? index : index + this.pageSize;
   }
 
   loadMore(): void {
@@ -86,7 +129,17 @@ export class RecommendationsComponent implements OnInit, OnDestroy {
       });
   }
 
-  submit(): void {
+  submit(modalTemplateRef: TemplateRef<unknown>): void {
+    this.modalService.open(modalTemplateRef, { scrollable: true, centered: true });
+    this.store$.dispatch( addTags( { tags: this.getAllTags(), selectedBooks: this.selectedBooks } ));
+  }
+  addTagsToUserAcc(): void {
+    const newTags = Object.assign(this.getAllTags());
+    const updatedCurrentUser = { ...this.userService.currentUser, tags: newTags };
+    this.store$.dispatch(updateUser({ userData: updatedCurrentUser }));
+    this.router.navigate(["home/recommendations/result"]);
+  }
+  cancelAdd(): void {
     this.router.navigate(["home/recommendations/result"]);
   }
 }

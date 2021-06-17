@@ -3,7 +3,7 @@ import { Observable } from "rxjs";
 import { User } from "../models/user";
 import { HttpClient } from "@angular/common/http";
 import { select, Store } from "@ngrx/store";
-import { getIsAdmin, getUserName } from "../store/state/user.state";
+import { getIsAdmin, getUser, getUserName, getUserTags } from "../store/state/user.state";
 
 interface LocalStorageAuthData {
   email: string;
@@ -23,11 +23,22 @@ export class UserService {
   username$ = this.store$.pipe(
       select(getUserName),
   );
+  tags$ = this.store$.pipe(
+      select(getUserTags),
+  );
+  user$ = this.store$.pipe(
+      select(getUser),
+  );
+  currentUser: User;
 
   constructor(
       private httpClient: HttpClient,
       private store$: Store,
-  ) { }
+  ) {
+    this.user$.subscribe( (user) => {
+      this.currentUser = user;
+    });
+  }
 
   getUserData(): Observable<User | null> {
     const authData: LocalStorageAuthData = JSON.parse(localStorage.getItem("authData"));
@@ -36,5 +47,8 @@ export class UserService {
       return this.httpClient.get<User>(`/api/users/${userId}`);
     }
     return null;
+  }
+  updateUser(user: User): Observable<User>  {
+    return this.httpClient.patch<User>(`/api/users/${user._id}`, user);
   }
 }

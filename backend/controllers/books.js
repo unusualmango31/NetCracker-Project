@@ -36,7 +36,7 @@ module.exports.create = async (req, res) => {
             year: req.body.year,
             rate: req.body.rate,
             genres: req.body.genres,
-            imgSrc: req.body.imgSrc,
+            imgUrl: req.body.imgUrl,
             tags: req.body.tags
         }).save();
         res.status(201).json(books);

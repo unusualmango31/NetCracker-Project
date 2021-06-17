@@ -24,6 +24,8 @@ import { booksReducer } from "./store/reducers/books.reducer";
 import { MatIconModule } from "@angular/material/icon";
 import { RecommendationsModule } from "./recommendations/recommendations.module";
 import { Ng2SearchPipeModule } from "ng2-search-filter";
+import { recommendationsReducer } from "./store/reducers/recommendations.reducer";
+import { RecommendationsEffects } from "./store/effects/recommendations.effects";
 
 @NgModule({
     declarations: [
@@ -36,7 +38,11 @@ import { Ng2SearchPipeModule } from "ng2-search-filter";
         ReactiveFormsModule,
         BrAppRoutingModule,
         HttpClientModule,
-        StoreModule.forRoot({ user: userReducer, books: booksReducer }, {
+        StoreModule.forRoot({
+            user: userReducer,
+            books: booksReducer,
+            recommendations: recommendationsReducer
+        }, {
             runtimeChecks: {
                 strictStateImmutability: true,
                 strictActionImmutability: true,
@@ -44,7 +50,7 @@ import { Ng2SearchPipeModule } from "ng2-search-filter";
                 strictActionSerializability: true,
             },
         }),
-        EffectsModule.forRoot([UserEffects, BooksEffects]),
+        EffectsModule.forRoot([UserEffects, BooksEffects, RecommendationsEffects]),
         StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
         AuthModule,
         HomeModule,

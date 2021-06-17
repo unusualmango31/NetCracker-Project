@@ -22,7 +22,7 @@ export const booksReducer = createReducer(
         ...state,
         books: [],
     })),
-    on(editBook, (state, { book }): BooksState => ({
+    on(editBook, (state): BooksState => ({
         ...state,
     })),
     on(editBookSuccess, (state): BooksState => ({

@@ -1,1 +1,55 @@
-<p>recommendations-result works!</p>
+<div class="wrap">
+    <div class="not-found" *ngIf="!collectionSize">
+        <div class="not-found-content">
+            <h3> Ничего не найдено... </h3>
+        </div>
+    </div>
+    <div class="container h-100 d-flex align-items-center">
+        <div class="form row row-cols-5">
+            <div class="col-sm" *ngFor="let book of this.recommendationsService.recommendedBooks$ | async | slice: (page - 1) * pageSize:page * pageSize; let i = index">
+                <div class="card" style="width: 170px">
+                    <button class="icon-button" (click)="openModal(bookDescription, book)">
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                    <img src="{{ book.imgUrl ? book.imgUrl : '../../../assets/cover.jpg' }}" class="card-img-top" />
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate d-block" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ book.name }}">
+                            {{ book.name }}
+                        </h5>
+                        <p class="card-text text-truncate d-block">{{ book.author }}</p>
+                        <hr />
+                        <p class="card-text">Рейтинг: {{ book.rate }}</p>
+                        <p class="card-text">Эта книга вам подходит на: {{ book.coefficient * 100 + "%" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="load-more" *ngIf="isLoadPossible && collectionSize >= pageSize" (click)="loadMore()">Загрузить ещё</button>
+</div>
+<ng-template #bookDescription let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">{{ booksService.selectedBook.name }}</h4>
+        <button type="button" class="icon-button" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body d-flex justify-content-between">
+        <div class="modal-fields">
+            <h5>Автор</h5>
+            <div class="modal-field">{{ booksService.selectedBook.author }}</div>
+            <h5>Жанр</h5>
+            <div class="modal-field">{{ booksService.selectedBook.genres }}</div>
+            <h5 *ngIf="!!booksService.selectedBook.year">Год</h5>
+            <div class="modal-field" *ngIf="!!booksService.selectedBook.year">{{ booksService.selectedBook.year }}</div>
+            <h5>Описание</h5>
+            <div class="modal-field">{{ booksService.selectedBook.description }}</div>
+            <h5>Рейтинг</h5>
+            <div class="modal-field">{{ booksService.selectedBook.rate }}</div>
+        </div>
+        <div class="book-cover" [style.backgroundImage]="coverUrl"> </div>
+    </div>
+    <div class="modal-footer">
+        <button class="button-reset button-small" type="button" (click)="modal.close('Close click')">Закрыть</button>
+    </div>
+</ng-template>

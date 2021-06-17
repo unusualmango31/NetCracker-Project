@@ -1,8 +1,15 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { catchError, map, switchMap } from "rxjs/operators";
+import { catchError, map, mergeMap, switchMap } from "rxjs/operators";
 import { of, pipe } from "rxjs";
-import { getUserData, getUserDataFail, getUserDataSuccess, userLogout } from "../actions/user.action";
+import {
+    getUserData,
+    getUserDataFail,
+    getUserDataSuccess,
+    updateUser,
+    updateUserSuccess,
+    userLogout,
+} from "../actions/user.action";
 import { UserService } from "../../services/user.service";
 import { loginSuccess, logout } from "../actions/auth.action";
 
@@ -29,10 +36,18 @@ export class UserEffects {
             return getUserData();
         }),
     ));
+    updateUser$ = createEffect(() => this.actions$.pipe(
+        ofType(updateUser),
+        mergeMap((action) => {
+            return this.userService.updateUser(action.userData);
+        }),
+        pipe(
+            map((user) => updateUserSuccess( { userData: user })),
+        ),
+    ));
     logoutUser$ = createEffect( () => this.actions$.pipe(
         ofType(logout),
         map( () => {
-            console.log("logout");
             return userLogout();
         }),
     ));

@@ -77,10 +77,11 @@
                 </div>
 
                 <div class="input-field">
-                    <div class="field-name" ngbTooltip="Tooltip on top">URL картинки</div>
+                    <div class="field-name">URL картинки</div>
                     <input type="text" id="imgUrl" formControlName="imgUrl" />
                     <div class="helper-text red-text" *ngIf="form.get('imgUrl').invalid && form.get('imgUrl').touched">
-                        <small *ngIf="form.get('imgUrl').errors.pattern">Неверный формат ссылки.</small>
+                        <small *ngIf="form.get('imgUrl').errors.minlength"> Ссалка не может быть меньше {{ form.get("imgUrl").errors.minlength.requiredLength }} символов. </small>
+                        <small *ngIf="form.get('imgUrl').errors.maxlength"> Ссылка не может быть больше {{ form.get("imgUrl").errors.maxlength.requiredLength }} символов. </small>
                     </div>
                 </div>
             </div>

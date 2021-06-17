@@ -22,5 +22,5 @@ export const getIsAdmin = createSelector(getUser, ( user) => {
 export const getUserName = createSelector(getUser, ( user) => {
     return user ? user.username : null;
 });
-
+export const getUserTags = createSelector(getUser, (user) => user.tags);
 

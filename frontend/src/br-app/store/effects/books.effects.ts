@@ -29,7 +29,6 @@ export class BooksEffects {
     createBook$ = createEffect(() => this.actions$.pipe(
         ofType(createBook),
         mergeMap((action) => {
-            console.log(action.book);
             return this.booksService.createBook(action.book);
         }),
         pipe(
@@ -48,7 +47,6 @@ export class BooksEffects {
     editBook$ = createEffect(() => this.actions$.pipe(
         ofType(editBook),
         mergeMap((action) => {
-            console.log(action.book);
             return this.booksService.updateBook(action.book);
         }),
         pipe(
