@@ -8,7 +8,7 @@ import {
     createBookSuccess, deleteBook,
     deleteBookSuccess, editBook, editBookSuccess,
     getBooks,
-    getBooksFail,
+    getBooksFail, getBooksForRec, getBooksForRecSuccess,
     getBooksSuccess,
 } from "../actions/books.action";
 
@@ -17,10 +17,27 @@ export class BooksEffects {
     getBooks$ = createEffect(() => this.actions$.pipe(
         ofType(getBooks),
         switchMap(() => {
+            return this.booksService.getSeveralBooks();
+        }),
+        pipe(
+            map((res) => {
+                this.booksService.collectionSize = res.collectionSize;
+                return getBooksSuccess( { books: res.books });
+            }),
+            catchError(
+                () => of(getBooksFail()),
+            ),
+        ),
+    ));
+    getBooksForRec$ = createEffect(() => this.actions$.pipe(
+        ofType(getBooksForRec),
+        switchMap(() => {
             return this.booksService.getBooksFromServer();
         }),
         pipe(
-            map((books) => getBooksSuccess( { books })),
+            map((books) => {
+                return getBooksForRecSuccess( { booksForRec: books });
+            }),
             catchError(
                 () => of(getBooksFail()),
             ),

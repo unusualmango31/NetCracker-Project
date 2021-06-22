@@ -29,12 +29,12 @@ module.exports.login = async (req, res) => {
             });
         } else {
             res.status(401).json({
-                message: "Пароли не совпадают."
+                message: "Введён неверный email или пароль"
             });
         }
     } else {
         res.status(404).json({
-            message: "Пользователь с таким email не найден"
+            message: "Введён неверный email или пароль"
         });
     }
 };

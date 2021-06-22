@@ -27,12 +27,12 @@ export class RecommendationsService {
       private booksService: BooksService,
   ) {
     this.tags$.subscribe( (tags) => {
-      this.tags = tags;
+      this.tags = tags.map( (tag) => tag.toLowerCase());
     });
     this.selectedBooks$.subscribe( (books) => {
       this.selectedBooks = books;
     });
-    this.booksService.books$.subscribe( (books) => {
+    this.booksService.sortedBooks$.subscribe( (books) => {
       this.books = books;
     });
   }
@@ -54,8 +54,10 @@ export class RecommendationsService {
     return of( booksRecommended.filter( (book) => book.coefficient > 0) );
   }
   getJaccardIndex(tags: string[], book: Book): number {
-    const union = this.getUnion(tags, book.tags);
-    const crossing = this.getCrossing(tags, book.tags);
+    tags = tags.map( (tag) => tag.toLowerCase());
+    const bookTags = book.tags.map( (tag) => tag.toLowerCase());
+    const union = this.getUnion(tags, bookTags);
+    const crossing = this.getCrossing(tags, bookTags);
     return crossing / union;
   }
   getUnion (tags: string[], bookTags: string[]): number {

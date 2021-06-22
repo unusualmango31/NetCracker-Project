@@ -28,6 +28,7 @@ export interface FormFields {
 export class BookFormsComponent implements OnInit, OnDestroy {
   formTitle: string;
   form: FormGroup;
+  isShowErrors: boolean = false;
   private destroy$ = new Subject();
   constructor(
       private router: Router,
@@ -96,10 +97,12 @@ export class BookFormsComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
+    this.isShowErrors = true;
     const formValue: FormFields = this.form.value;
     if (this.formTitle === "Добавление") {
       const tags = formValue.tags.split(",");
       this.store$.dispatch(createBook( { book: { ...formValue, tags } } ));
+      this.isShowErrors = false;
     }
     if (this.formTitle === "Редактирование") {
       if (Array.isArray(formValue.tags)) {
@@ -110,6 +113,7 @@ export class BookFormsComponent implements OnInit, OnDestroy {
         const tags = formValue.tags.split(",");
         this.store$.dispatch(editBook( { book: { ...formValue, tags } } ));
       }
+      this.isShowErrors = false;
     }
     this.router.navigate(["/home"]);
   }

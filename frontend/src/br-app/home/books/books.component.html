@@ -4,7 +4,6 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">№</th>
                     <th scope="col">Название</th>
                     <th scope="col">Авторы</th>
                     <th scope="col">Жанр</th>
@@ -13,8 +12,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let book of booksService.books$ | async | slice: (page - 1) * pageSize:page * pageSize; let i = index">
-                    <th scope="row">{{ getIndexForCurrentPage(i) }}</th>
+                <tr *ngFor="let book of booksService.books$ | async; let i = index">
                     <td>{{ book.name }}</td>
                     <td>{{ book.author }}</td>
                     <td>{{ book.genres }}</td>
@@ -23,7 +21,7 @@
                         <button class="icon-button" (click)="openModal(bookDescription, 'description', book)">
                             <mat-icon>visibility</mat-icon>
                         </button>
-                        <button class="icon-button" *ngIf="userService.isAdmin$ | async" (click)="editBook(getIndexForCurrentPage(i), book)">
+                        <button class="icon-button" *ngIf="userService.isAdmin$ | async" (click)="editBook(book)">
                             <mat-icon aria-hidden="false">edit</mat-icon>
                         </button>
                         <button class="icon-button" *ngIf="userService.isAdmin$ | async" (click)="openModal(deleteBook, 'delete', book)">
@@ -34,7 +32,13 @@
             </tbody>
         </table>
         <div class="d-flex justify-content-center">
-            <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pageSize" [(page)]="page" [boundaryLinks]="true"></ngb-pagination>
+            <ngb-pagination
+                [collectionSize]="this.booksService.collectionSize"
+                [pageSize]="this.booksService.pageSize"
+                [(page)]="this.booksService.page"
+                [boundaryLinks]="true"
+                (pageChange)="loadBooks()"
+            ></ngb-pagination>
         </div>
     </div>
     <router-outlet></router-outlet>

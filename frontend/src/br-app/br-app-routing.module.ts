@@ -22,7 +22,7 @@ const routes: Routes = [
         path: "home", component: HomeComponent, children: [
             { path: "", component: BooksComponent, children: [
                 { path: "book/add", component: BookFormsComponent },
-                { path: "book/edit/:id", component: BookFormsComponent },
+                { path: "book/edit", component: BookFormsComponent },
             ] },
             { path: "recommendations", component: RecommendationsComponent },
             { path: "recommendations/result", component: RecommendationsResultComponent },

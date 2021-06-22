@@ -11,22 +11,22 @@
                 </div>
                 <div class="input-field">
                     <label for="email"></label>
-                    <input type="email" id="email" formControlName="email" placeholder="email" />
-                    <div class="helper-text red-text" *ngIf="form.get('email').invalid && form.get('email').touched">
+                    <input type="email" id="email" formControlName="email" placeholder="Email" />
+                    <span class="arrow red-text" *ngIf="form.get('email').invalid && form.get('email').touched">
                         <small *ngIf="form.get('email').errors.required"> Поле "Email" не может быть пустым. </small>
                         <small *ngIf="form.get('email').errors.email"> Введите корректный email адрес. </small>
-                    </div>
+                    </span>
                 </div>
 
                 <div class="input-field">
                     <label for="password"></label>
-                    <input type="password" id="password" formControlName="password" placeholder="пароль" />
-                    <div class="helper-text red-text" *ngIf="form.get('password').invalid && form.get('password').touched">
+                    <input type="password" id="password" formControlName="password" placeholder="Пароль" />
+                    <span class="arrow red-text" *ngIf="form.get('password').invalid && form.get('password').touched">
                         <small *ngIf="form.get('password').errors.required"> Поле "Пароль" не может быть пустым. </small>
                         <small *ngIf="form.get('password').errors.minlength"> Пароль должен быть больше {{ form.get("password").errors.minlength.requiredLength }} символов. </small>
-                    </div>
+                    </span>
                 </div>
-                <small class="helper-text red-text serverErrors" *ngIf="serverError$ | async">
+                <small class="helper-text red-text serverErrors">
                     {{ serverError$ | async }}
                 </small>
             </div>
@@ -35,6 +35,10 @@
             </div>
             <div class="form-container__sign-up">
                 <a (click)="redirect()">Нет аккаунта? Зарегистрируйтесь </a>
+            </div>
+            <hr />
+            <div class="form-container__sign-up">
+                <a [routerLink]="['/home']">Войти как гость </a>
             </div>
         </form>
     </div>
