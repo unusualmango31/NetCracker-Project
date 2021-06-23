@@ -11,15 +11,17 @@ module.exports.getAll = async (req, res) => {
 }
 module.exports.getSeveral = async (req, res) => {
     try {
-        const books = await Books.find({});
+        let books = await Books.find({});
         const startPosition = Number(req.query.pos);
+        const searchName = req.query.search;
         const quantity = Number(req.query.q);
         const fieldForSort = req.query.fieldname;
         const direction = req.query.direction;
         let severalBooks = [];
-
+        let sortedBooks = [];
+        let filteredBooks = [];
         if (direction === "reverse") {
-            severalBooks = [...books].sort( (a, b) => {
+            sortedBooks = [...books].sort( (a, b) => {
                 if(a[fieldForSort] < b[fieldForSort]) {
                     return 1;
                 }
@@ -28,10 +30,17 @@ module.exports.getSeveral = async (req, res) => {
                 }
                 return 0;
             });
-            severalBooks = severalBooks.slice(startPosition, quantity);
-            res.status(200).json({ books: severalBooks, collectionSize: books.length});
+
+            filteredBooks = searchName === "" ? sortedBooks : sortedBooks.filter( (book) => {
+                return new RegExp(searchName.toLowerCase()).exec(book.name.toLowerCase());
+            });
+            severalBooks = filteredBooks.slice(startPosition, quantity);
+            res.status(200).json({
+                    books: severalBooks,
+                    collectionSize: searchName === "" ? books.length : filteredBooks.length
+                });
         } else {
-            severalBooks = [...books].sort( (a, b) => {
+            sortedBooks = [...books].sort( (a, b) => {
                 if(a[fieldForSort] > b[fieldForSort]) {
                     return 1;
                 }
@@ -40,8 +49,14 @@ module.exports.getSeveral = async (req, res) => {
                 }
                 return 0;
             });
-            severalBooks = severalBooks.slice(startPosition, quantity);
-            res.status(200).json({ books: severalBooks, collectionSize: books.length});
+            filteredBooks = searchName === "" ? sortedBooks : sortedBooks.filter( (book) => {
+                return new RegExp(searchName.toLowerCase()).exec(book.name.toLowerCase());
+            });
+            severalBooks = filteredBooks.slice(startPosition, quantity);
+            res.status(200).json({
+                books: severalBooks,
+                collectionSize: searchName === "" ? books.length : filteredBooks.length
+            });
         }
     } catch (e) {
         errorHandler(res, e);

@@ -61,4 +61,8 @@ export class BooksComponent implements OnInit {
     this.booksService.fieldForSort = fieldForSort;
     this.store$.dispatch(getBooks());
   }
+
+  search(): void {
+    this.store$.dispatch(getBooks());
+  }
 }

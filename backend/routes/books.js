@@ -4,7 +4,7 @@ const passport = require("passport");
 const router = express.Router();
 
 router.get("/", controller.getAll);
-router.get("/pagination", controller.getSeveral)
+router.get("/filter", controller.getSeveral);
 router.get("/:id", controller.getById);
 router.delete("/:id", passport.authenticate("jwt", { session: false } ),  controller.delete);
 router.post("/", passport.authenticate("jwt", { session: false } ), controller.create);

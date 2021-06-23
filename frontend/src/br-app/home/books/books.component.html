@@ -1,6 +1,9 @@
 <div class="wrap">
     <div class="container">
-        <button class="btn" *ngIf="userService.isAdmin$ | async" (click)="addBook()">Добавить книгу</button>
+        <div class="table-actions d-flex justify-content-between">
+            <input type="text" class="search" name="name" placeholder="Поиск..." [(ngModel)]="booksService.nameForSearch" (ngModelChange)="search()" />
+            <button class="btn add" *ngIf="userService.isAdmin$ | async" (click)="addBook()">Добавить книгу</button>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
