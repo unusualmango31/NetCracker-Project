@@ -14,6 +14,7 @@ import { Book } from "../../models/books";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BooksComponent implements OnInit {
+  isReverse: boolean = false;
   coverUrl = "";
   constructor(
       private store$: Store,
@@ -46,6 +47,18 @@ export class BooksComponent implements OnInit {
     this.router.navigate([`home/book/edit`]);
   }
   loadBooks(): void {
+    this.store$.dispatch(getBooks());
+  }
+
+  sort(fieldForSort: string): void {
+    if (this.isReverse) {
+      this.booksService.direction = "reverse";
+    }
+    if (!this.isReverse) {
+      this.booksService.direction = "normal";
+    }
+    this.isReverse = !this.isReverse;
+    this.booksService.fieldForSort = fieldForSort;
     this.store$.dispatch(getBooks());
   }
 }
