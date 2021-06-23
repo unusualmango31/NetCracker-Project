@@ -11,6 +11,14 @@ export const getBooksSuccess = createAction(
     props<{ books: Book[] }>(),
 );
 
+export const getBooksForRec = createAction(
+    "[Books] load books for recommendation",
+);
+export const getBooksForRecSuccess = createAction(
+    "[Books] load books for recommendation success",
+    props<{ booksForRec: Book[] }>(),
+);
+
 export const getBooksFail = createAction(
     "[Books] failed to load books",
 );

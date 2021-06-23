@@ -10,6 +10,7 @@ import { addTags } from "../store/actions/recommendations.action";
 import { UserService } from "../services/user.service";
 import { updateUser } from "../store/actions/user.action";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { getBooksForRec } from "../store/actions/books.action";
 
 @Component({
   selector: "br-recommendations",
@@ -45,6 +46,7 @@ export class RecommendationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.store$.dispatch(getBooksForRec());
     this.booksService.sortedBooks$
         .pipe(takeUntil(this.destroy$))
         .subscribe( (books) => {
@@ -127,8 +129,8 @@ export class RecommendationsComponent implements OnInit, OnDestroy {
 
   search(): void {
     this.books = this.nameForSearch === "" ? this.booksFromServer : this.books.filter( (res) => {
-        return new RegExp(this.nameForSearch.toLowerCase()).exec(res.name.toLowerCase());
-      });
+      return new RegExp(this.nameForSearch.toLowerCase()).exec(res.name.toLowerCase());
+    });
   }
 
   submit(modalTemplateRef: TemplateRef<unknown>): void {

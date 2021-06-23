@@ -121,5 +121,25 @@
 }
 
 .serverErrors {
+  height: 25px;
   display: block;
+}
+.arrow {
+  min-width: 200px;
+  padding: 10px;
+  position: absolute;
+  margin-left: 20px;
+  margin-top: 15px;
+  background: honeydew;
+  border-radius: 5px;
+}
+.arrow:before {
+  content: "";
+  border: solid transparent;
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  border-right-color: honeydew;
+  border-width: 9px;
+  margin-top: -9px;
 }

@@ -18,8 +18,8 @@ export class AuthComponent implements OnInit {
   formTitle = "Авторизация";
   form: FormGroup;
   constructor(
+      public router: Router,
       private auth: AuthService,
-      private router: Router,
       private route: ActivatedRoute,
       private store$: Store,
   ) { }

@@ -9,6 +9,17 @@ module.exports.getAll = async (req, res) => {
         errorHandler(res, e);
     }
 }
+module.exports.getSeveral = async (req, res) => {
+    try {
+        const books = await Books.find({});
+        const startPosition = Number(req.query.pos);
+        const quantity = Number(req.query.q);
+        const severalBooks = books.slice(startPosition, quantity);
+        res.status(200).json({ books: severalBooks, collectionSize: books.length});
+    } catch (e) {
+        errorHandler(res, e);
+    }
+}
 module.exports.getById = async (req, res) => {
     try {
         const book = await Books.findById(req.params.id);
