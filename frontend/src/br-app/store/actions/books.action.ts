@@ -5,12 +5,10 @@ import { Book } from "../../models/books";
 export const getBooks = createAction(
     "[Books] load books",
 );
-
 export const getBooksSuccess = createAction(
     "[Books] load books success",
     props<{ books: Book[] }>(),
 );
-
 export const getBooksForRec = createAction(
     "[Books] load books for recommendation",
 );
@@ -18,11 +16,9 @@ export const getBooksForRecSuccess = createAction(
     "[Books] load books for recommendation success",
     props<{ booksForRec: Book[] }>(),
 );
-
 export const getBooksFail = createAction(
     "[Books] failed to load books",
 );
-
 export const createBook = createAction(
     "[Books] book create",
     props<{ book: Book }>(),
@@ -30,7 +26,6 @@ export const createBook = createAction(
 export const createBookSuccess = createAction(
     "[Books] book create success",
 );
-
 export const selectBook = createAction(
     "[Books] book selected",
     props<{ selectedBook: Book }>(),

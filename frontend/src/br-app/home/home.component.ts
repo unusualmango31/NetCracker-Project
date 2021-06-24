@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { AuthService } from "../services/auth.service";
 import { logout } from "../store/actions/auth.action";
@@ -6,6 +6,7 @@ import { Store } from "@ngrx/store";
 import { Router } from "@angular/router";
 import { Subject } from "rxjs";
 import { UserService } from "../services/user.service";
+import { getBooksForRec } from "../store/actions/books.action";
 
 @Component({
   selector: "br-home",
@@ -13,7 +14,7 @@ import { UserService } from "../services/user.service";
   styleUrls: ["./home.component.less"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeComponent implements OnDestroy {
+export class HomeComponent implements OnDestroy, OnInit {
   isHomePage = true;
   private destroy$ = new Subject();
   constructor(
@@ -24,6 +25,10 @@ export class HomeComponent implements OnDestroy {
       private router: Router,
   ) {
   }
+  ngOnInit(): void {
+    this.store$.dispatch(getBooksForRec());
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

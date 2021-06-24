@@ -77,6 +77,12 @@ export class BooksEffects {
             return getBooks();
         }),
     ));
+    reloadBooksForRec$ = createEffect( () => this.actions$.pipe(
+        ofType(createBookSuccess, deleteBookSuccess, editBookSuccess),
+        map( () => {
+            return getBooksForRec();
+        }),
+    ));
     constructor(
         private actions$: Actions,
         private booksService: BooksService,

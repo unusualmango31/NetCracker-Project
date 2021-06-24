@@ -12,6 +12,9 @@ export class BooksService {
   page: number;
   pageSize: number;
   collectionSize: number;
+  fieldForSort: string;
+  nameForSearch: string;
+  direction: string;
   sortedBooks$ = this.store$.pipe(
       select(getSortedBooks),
   );
@@ -26,6 +29,9 @@ export class BooksService {
   ) {
     this.page = 1;
     this.pageSize = 6;
+    this.fieldForSort = "name";
+    this.direction = "normal";
+    this.nameForSearch = "";
   }
 
   getBooksFromServer(): Observable<Book[]> {
@@ -35,7 +41,8 @@ export class BooksService {
   getSeveralBooks(): Observable<{ books: Book[], collectionSize: number }> {
     const quantity = this.page * this.pageSize;
     const pos = (this.page - 1) * this.pageSize;
-    return this.httpClient.get<{ books: Book[], collectionSize: number }>(`api/books/pagination?pos=${pos}&&q=${quantity}`);
+    return this.httpClient
+        .get<{ books: Book[], collectionSize: number }>(`api/books/filter?pos=${pos}&q=${quantity}&fieldname=${this.fieldForSort}&direction=${this.direction}&search=${this.nameForSearch}`);
   }
 
   createBook(book: Book): Observable<Book> {

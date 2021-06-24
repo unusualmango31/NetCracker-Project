@@ -128,8 +128,8 @@ export class RecommendationsComponent implements OnInit, OnDestroy {
   }
 
   search(): void {
-    this.books = this.nameForSearch === "" ? this.booksFromServer : this.books.filter( (res) => {
-      return new RegExp(this.nameForSearch.toLowerCase()).exec(res.name.toLowerCase());
+    this.books = this.nameForSearch === "" ? this.booksFromServer : this.books.filter( (book) => {
+      return new RegExp(this.nameForSearch.toLowerCase()).exec(book.name.toLowerCase());
     });
   }
 
